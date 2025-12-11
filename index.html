@@ -1,1 +1,183 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Invitación</title>
 
+<style>
+    body {
+        margin: 0;
+        background: black;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        overflow: hidden;
+        font-family: Arial, sans-serif;
+    }
+
+    /* ❄️ Nieve */
+    .snowflake {
+        position: fixed;
+        top: -10px;
+        color: white;
+        font-size: 1.2rem;
+        opacity: 0.8;
+        animation: snowfall 8s linear infinite;
+        pointer-events: none;
+    }
+
+    @keyframes snowfall {
+        0% { transform: translateY(0) rotate(0); }
+        100% { transform: translateY(100vh) rotate(360deg); }
+    }
+
+    /* ✨ Luces navideñas arriba */
+    .luces {
+        position: fixed;
+        top: 0;
+        width: 100%;
+        display: flex;
+        justify-content: space-around;
+        padding: 10px 0;
+        z-index: 5;
+    }
+
+    .luz {
+        width: 12px;
+        height: 20px;
+        border-radius: 50%;
+        background: red;
+        animation: luzParpadeo 1.5s infinite alternate;
+        box-shadow: 0 0 8px red;
+    }
+
+    .luz:nth-child(odd) {
+        background: lime;
+        animation-duration: 1s;
+        box-shadow: 0 0 8px lime;
+    }
+
+    @keyframes luzParpadeo {
+        0% { opacity: 0.3; }
+        100% { opacity: 1; }
+    }
+
+    /* ✨ Sobre flotando */
+    #sobre-container {
+        width: 85%;
+        max-width: 450px;
+        cursor: pointer;
+        position: relative;
+        transition: transform 0.5s ease;
+        animation: flotar 3s ease-in-out infinite, pulse 2s infinite;
+        filter: drop-shadow(0 0 15px gold);
+        z-index: 3;
+    }
+
+    @keyframes flotar {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-8px); }
+    }
+
+    @keyframes pulse {
+        0%, 100% { transform: scale(1); }
+        50% { transform: scale(1.02); }
+    }
+
+    #sobre {
+        width: 100%;
+        border-radius: 8px;
+    }
+
+    /* 📩 Animación al abrir */
+    .abrir {
+        animation: abrirSobre 1.2s forwards ease-out;
+        filter: drop-shadow(0 0 30px gold);
+    }
+
+    @keyframes abrirSobre {
+        0% { transform: scale(1) rotateX(0); opacity: 1; }
+        50% { transform: scale(0.8) rotateX(45deg); opacity: 0.7; }
+        100% { transform: scale(0.1) rotateX(90deg); opacity: 0; }
+    }
+
+    /* 🎁 Invitación */
+    #invitacion {
+        display: none;
+        width: 90%;
+        max-width: 500px;
+        border-radius: 12px;
+        opacity: 0;
+        animation: aparecer 1.8s ease forwards;
+        filter: drop-shadow(0 0 18px gold);
+        position: relative;
+        z-index: 3;
+    }
+
+    @keyframes aparecer {
+        0% { transform: scale(0.6); opacity: 0; }
+        50% { transform: scale(1.05); opacity: 1; }
+        100% { transform: scale(1); opacity: 1; }
+    }
+
+</style>
+</head>
+<body>
+
+<!-- 🎄 Luces navideñas -->
+<div class="luces">
+    <div class="luz"></div>
+    <div class="luz"></div>
+    <div class="luz"></div>
+    <div class="luz"></div>
+    <div class="luz"></div>
+    <div class="luz"></div>
+</div>
+
+<!-- ❄️ Nieve -->
+<script>
+    for (let i = 0; i < 40; i++) {
+        const snow = document.createElement("div");
+        snow.innerHTML = "❄";
+        snow.classList.add("snowflake");
+        snow.style.left = Math.random() * 100 + "vw";
+        snow.style.animationDelay = Math.random() * 8 + "s";
+        snow.style.fontSize = (Math.random() * 10 + 10) + "px";
+        document.body.appendChild(snow);
+    }
+</script>
+
+<!-- 📩 SOBRE -->
+<div id="sobre-container">
+    <img id="sobre" src="sobre.png">
+</div>
+
+<!-- 🎁 INVITACIÓN -->
+<img id="invitacion" src="IMG-20251210-WA0027.jpg">
+
+<!-- 🎶 AUDIO NAVIDEÑO -->
+<audio id="musica" preload="auto">
+    <source src="silent-night-christmas-piano-cover-441733.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+    const sobre = document.getElementById("sobre-container");
+    const invitacion = document.getElementById("invitacion");
+    const musica = document.getElementById("musica");
+
+    sobre.addEventListener("click", () => {
+        sobre.classList.add("abrir");
+
+        setTimeout(() => {
+            sobre.style.display = "none";
+            invitacion.style.display = "block";
+            musica.volume = 0.7;
+            musica.play();
+        }, 1100);
+    });
+</script>
+
+</body>
+</html>
